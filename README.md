@@ -1,2 +1,2 @@
-# Tareas-de-Programaci-n
-Tareas de programación de la asignatura "Programación" del módulo de Desarrollo de Aplicaciones Multiplataforma.
+# Tareas-de-Programacion
+Este repositorio contiene las tareas de programación correspondientes a la asignatura "Programación" del módulo Desarrollo de Aplicaciones Multiplataforma. En él se incluyen ejercicios, proyectos y prácticas relacionadas con el desarrollo de aplicaciones multiplataforma, abordando diferentes lenguajes, tecnologías y enfoques utilizados en la creación de aplicaciones que funcionan en múltiples sistemas operativos y dispositivos.
