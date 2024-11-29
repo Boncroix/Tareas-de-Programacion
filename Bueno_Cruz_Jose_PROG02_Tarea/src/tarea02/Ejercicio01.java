@@ -67,15 +67,14 @@ public class Ejercicio01 {
             // Switch de la selección del usuario
             switch (seleccionUsuario) {
                 case 1:
-                    int contador = 0;
                     System.out.println();
                     // Bucle para calcular sueldo para cada uno de los empleados
-                    while (contador < NUMERO_EMPLEADOS) {
+                    for (int i = 0; i < NUMERO_EMPLEADOS; i++) {
                         // Entrada de datos
                         entradaValida = false;
                         // Bucle validación entrada de datos
                         while (!entradaValida) {
-                            System.out.print("Introducir antigüedad empleado "+ (contador + 1) +": ");
+                            System.out.print("Introducir antigüedad empleado "+ (i + 1) +": ");
                             // Comprobar que la entrada de datos es un número entero
                             if (teclado.hasNextInt()) {
                                 antiguedad= teclado.nextInt();
@@ -89,19 +88,19 @@ public class Ejercicio01 {
                             }
                         }
                         // Calculo plus si el trabajador lleva más de 5 años trabajados
-                        sueldos[contador] = antiguedad > 5 ? 
+                        sueldos[i] = antiguedad > 5 ? 
                                 SUELDO_BASE + EXTRA_MAS_5A : SUELDO_BASE + EXTRA_MENOS_5A;
                         // Calculo plus por año trabajado
-                        sueldos[contador] += antiguedad * PLUS_X_AÑO;
-                        contador++;
+                        sueldos[i] += antiguedad * PLUS_X_AÑO;
                     }
+  
                     // Resultado para opción 1
                     System.out.println();
                     System.out.println("[------------------------------------------------------------------]");
                     System.out.println("[--------------------------- RESULTADO ----------------------------]");
                     System.out.println("[------------------------------------------------------------------]");
                     for (int i = 0; i < NUMERO_EMPLEADOS; i++) {
-                        System.out.println("Sueldo empleado" + (i + 1) + ": ------------------------------------------- " + sueldos[i]);
+                        System.out.println("Sueldo empleado" + (i + 1) + ": -------------------------------------- " + sueldos[i] + " Euros");
                     }
                     break;
                 case 2:
@@ -114,8 +113,8 @@ public class Ejercicio01 {
                     System.out.println("[------------------------------------------------------------------]");
                     System.out.println("[--------------------------- RESULTADO ----------------------------]");
                     System.out.println("[------------------------------------------------------------------]");
-                    System.out.println("Sueldo anual para un empleado recien incorporado: ---------- " + sueldoAnual);
-                    System.out.println("Sueldo mensual para un empleado recien incorporado: --------- " + sueldoMensual);
+                    System.out.println("Sueldo anual para un empleado recien incorporado: ----- " + sueldoAnual + " Euros");
+                    System.out.println("Sueldo mensual para un empleado recien incorporado: ---- " + sueldoMensual + " Euros");
                     break;
                 case 3:
                     // Salir del programa opción 3
