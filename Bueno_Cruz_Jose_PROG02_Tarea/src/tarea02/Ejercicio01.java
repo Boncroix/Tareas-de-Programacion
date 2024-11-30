@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Ejercicio 1. SUELDOS DE EMPLEADOS.
  *
- * @author Indica el nombre del alumno/a
+ * @author José Bueno Cruz
  */
 public class Ejercicio01 {   
     
@@ -27,36 +27,35 @@ public class Ejercicio01 {
         int antiguedad = 0;
                 
         // Variables de salida
-        double[] sueldos = new double[NUMERO_EMPLEADOS];
+        float[] sueldos = new float[NUMERO_EMPLEADOS];
+        float sueldoAnual;
+        float sueldoMensual;
         
         //Variables auxiliares
         boolean salir = false;
-        double sueldoAnual;
-        double sueldoMensual;
                
-        // Clase Scanner para petición de datos de entrada
+        // Clase Scanner para petición de datos de entrada2
         Scanner teclado = new Scanner(System.in);
 
+        // Enunciado del ejercicio
         System.out.println("[------------------------------------------------------------------]");
         System.out.println("[--------------- Ejercicio2: Sueldos de Empleados -----------------]");
         System.out.println("[------------------------------------------------------------------]");      
 
-        // Bucle hasta selección de opción salir
+        // Bucle repetitivo hasta que el usuario seleccione salir
         while (!salir) {
-            // Entrada de datos
+            // Bucle entrada y validación de datos
             boolean entradaValida = false;
-            // Bucle validación entrada de datos
             while (!entradaValida) {
-                System.out.println();
                 System.out.println("1. Calcular el sueldo de los empleados en función de su antigüedad");
                 System.out.println("2. Calcular el coste anual y mensual de un empleado nuevo");
                 System.out.println("3. Salir");
                 System.out.print("Elegir una opción: ");
                 // Comprobar que la entrada de datos es un número entero
-                if (teclado.hasNextInt()) {
+                try {
                     seleccionUsuario= teclado.nextInt();
                     entradaValida = true;
-                } else {
+                } catch (Exception e) {
                     System.out.println();
                     System.out.println("[------------------------------------------------------------------]");
                     System.out.println("[- Error en la entrada de datos, debe introducir un número entero -]");
@@ -64,33 +63,32 @@ public class Ejercicio01 {
                     teclado.next();
                 }
             }
-            // Switch de la selección del usuario
+            // Switch según selección del usuario
             switch (seleccionUsuario) {
+                // Opción 1
                 case 1:
                     System.out.println();
                     // Bucle para calcular sueldo para cada uno de los empleados
                     for (int i = 0; i < NUMERO_EMPLEADOS; i++) {
-                        // Entrada de datos
+                        // Bucle entrada y validación de datos
                         entradaValida = false;
-                        // Bucle validación entrada de datos
                         while (!entradaValida) {
-                            System.out.print("Introducir antigüedad empleado "+ (i + 1) +": ");
-                            // Comprobar que la entrada de datos es un número entero
-                            if (teclado.hasNextInt()) {
+                            System.out.printf("Introducir antigüedad empleado %d: ", i + 1);
+                            try {
                                 antiguedad= teclado.nextInt();
                                 entradaValida = true;
-                            } else {
+                            } catch (Exception e) {
                                 System.out.println();
                                 System.out.println("[------------------------------------------------------------------]");
                                 System.out.println("[- Error en la entrada de datos, debe introducir un número entero -]");
                                 System.out.println("[------------------------------------------------------------------]\n");
                                 teclado.next();
-                            }
+                            }       
                         }
-                        // Calculo plus si el trabajador lleva más de 5 años trabajados
+                        // Calculo plus más de 5 años trabajados, opción 1
                         sueldos[i] = antiguedad > 5 ? 
                                 SUELDO_BASE + EXTRA_MAS_5A : SUELDO_BASE + EXTRA_MENOS_5A;
-                        // Calculo plus por año trabajado
+                        // Calculo plus por año trabajado, opción 1
                         sueldos[i] += antiguedad * PLUS_X_AÑO;
                     }
   
@@ -100,35 +98,37 @@ public class Ejercicio01 {
                     System.out.println("[--------------------------- RESULTADO ----------------------------]");
                     System.out.println("[------------------------------------------------------------------]");
                     for (int i = 0; i < NUMERO_EMPLEADOS; i++) {
-                        System.out.println("Sueldo empleado" + (i + 1) + ": -------------------------------------- " + sueldos[i] + " Euros");
+                        System.out.printf("Sueldo empleado %d ----------------------------------- %,.2f Euros\n",(i + 1), sueldos[i]);
                     }
+                    System.out.println();
                     break;
+                // Opción 2
                 case 2:
-                    // Calculo sueldo anual y sueldo mensual para la opción 2
+                    // Calculo sueldo anual y sueldo mensual, opción 2
                     sueldoAnual = SUELDO_BASE * PAGAS;
                     sueldoMensual = sueldoAnual / 12;
-                    
                     // Resultado opción 2
                     System.out.println();
                     System.out.println("[------------------------------------------------------------------]");
                     System.out.println("[--------------------------- RESULTADO ----------------------------]");
                     System.out.println("[------------------------------------------------------------------]");
-                    System.out.println("Sueldo anual para un empleado recien incorporado: ----- " + sueldoAnual + " Euros");
-                    System.out.println("Sueldo mensual para un empleado recien incorporado: ---- " + sueldoMensual + " Euros");
+                    System.out.printf("Sueldo  anual  nueva incorporación: ---------------- %,.2f Euros\n",sueldoAnual);
+                    System.out.printf("Sueldo mensual nueva incorporación: ----------------- %,.2f Euros\n",sueldoMensual);
+                    System.out.println();
                     break;
+                // Salir del programa, opción 3
                 case 3:
-                    // Salir del programa opción 3
                     System.out.println();
                     System.out.println("[------------------------------------------------------------------]");
                     System.out.println("[--------------------- Fin del programa. Bye! ---------------------]");
-                    System.out.println("[------------------------------------------------------------------]\n");
+                    System.out.println("[------------------------------------------------------------------]");
                     salir = true;
                     break;
+                // Opción por defecto, en caso de que la selección de usuario no coincida con ningún case.
                 default:
-                    // Opción por defecto, en caso de que la selección de usuario no coincida con ninguna opción.
                     System.out.println();
                     System.out.println("[------------------------------------------------------------------]");
-                    System.out.println("[----- Opción no válida debe introducir un número entre 1 y 3 -----]");
+                    System.out.printf("[----- Opción no válida debe introducir un número entre 1 y %d -----]\n", NUMERO_EMPLEADOS);
                     System.out.println("[------------------------------------------------------------------]\n");
             }
         }
