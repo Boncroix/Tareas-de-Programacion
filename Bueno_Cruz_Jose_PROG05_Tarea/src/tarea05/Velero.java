@@ -1,119 +1,72 @@
 package tarea05;
 
 /**
- * Clase que representa un <strong>Velero</strong>. Esta clase gestiona las
- * propiedades de un velero
- *
+ * Clase que representa un <strong>Velero</strong>.
  * <p>
- * Está diseñada para su uso en simulaciones de navegación, regatas y otras
- * aplicaciones que requieran el modelado de veleros en un entorno de
+ * Los objetos de esta clase contienen atributos que permiten almacenar
+ * información sobre:</p>
+ * <ul>
+ * <li><strong>Nombre</strong> del velero.</li>
+ * <li><strong>Máxima cantidad de tripulantes</strong> que puede llevar.</li>
+ * <li><strong>Número de mástiles</strong> del velero.</li>
+ * <li><strong>Estado de navegación</strong> del velero
+ * (<strong>navegando</strong> o <strong>detenido</strong>).</li>
+ * <li><strong>Velocidad</strong> actual del velero (nudos).</li>
+ * <li><strong>Tiempo total de navegación</strong> del velero (minutos).</li>
+ * <li><strong>Número actual de tripulantes</strong> a bordo.</li>
+ * <li><strong>Rumbo</strong> actual del velero.</li>
+ * <li><strong>Nombre del patrón</strong> que comanda el velero.</li>
+ * </ul>
+ * <p>
+ * La clase también dispone de información general independiente de los objetos
+ * concretos que se hayan creado. Es el caso de:</p>
+ * <ul>
+ * <li><strong>Número total de veleros</strong> creados.</li>
+ * <li><strong>Número de veleros navegando</strong> en el momento actual.</li>
+ * <li><strong>Tiempo total de navegación</strong> acumulado por todos los
+ * veleros creados (minutos).</li>
+ * </ul>
+ * <p>
+ * Esta clase está diseñada para su uso en simulaciones de navegación, regatas y
+ * otras aplicaciones que requieran el modelado de veleros en un entorno de
  * navegación.</p>
  *
  * @author José Bueno Cruz
  */
 public class Velero {
 
-    /**
-     * Atributos estáticos, públicos e inmutables de clase. Estas constantes
-     * definen los límites y valores predeterminados utilizados para crear y
-     * configurar un velero. Son inmutables (finales) y se usan principalmente
-     * para validar las propiedades de los veleros al ser creados.
-     *
-     * - MIN_MASTILES: valor mínimo permitido para el número de mástiles (1).
-     * Indica que un velero no puede tener menos de este número de mástiles. -
-     * MAX_MASTILES: valor máximo permitido para el número de mástiles (4).
-     * Indica que un velero no puede tener más de este número de mástiles. -
-     * MIN_VELOCIDAD: velocidad mínima permitida en nudos (2). Define la
-     * velocidad más baja a la que un velero puede navegar de manera segura. -
-     * MAX_VELOCIDAD: velocidad máxima permitida en nudos (30). Limita la
-     * velocidad máxima que puede alcanzar un velero por razones de seguridad y
-     * operatividad. - MIN_TRIPULANTES: número mínimo de tripulantes requerido
-     * para operar el velero (0). Este valor representa el mínimo necesario para
-     * la operatividad básica del velero. - PATRON_POR_DEFECTO: valor por
-     * defecto del patrón del velero ("Sin patrón"). Se asigna cuando no se
-     * especifica un patrón al crear un velero. - RUMBO_POR_DEFECTO: valor por
-     * defecto del rumbo del velero ("Sin rumbo"). Se asigna cuando no se
-     * especifica un rumbo al crear un velero.
-     */
-    static public final int MIN_MASTILES = 1;
-    static public final int MAX_MASTILES = 4;
-    static public final int MIN_VELOCIDAD = 2;
-    static public final int MAX_VELOCIDAD = 30;
-    static public final int MIN_TRIPULANTES = 0;
-    static public final String PATRON_POR_DEFECTO = "Sin patrón";
-    static public final String RUMBO_POR_DEFECTO = "Sin rumbo";
+// ATRIBUTOS ESTÁTICOS (de clase)
+// ------------------------------------------------------------------------
+// Atributos estáticos publicos y constantes
+    static public final int MIN_MASTILES = 1;           // Número mínimo de mástiles permitido para un velero
+    static public final int MAX_MASTILES = 4;           // Número máximo de mástiles permitido para un velero
+    static public final int MIN_VELOCIDAD = 2;          // Velocidad mínima permitida para el velero (nudos)
+    static public final int MAX_VELOCIDAD = 30;         // Velocidad máxima permitida para el velero (nudos)
+    static public final int MIN_TRIPULANTES = 0;        // Número mínimo de tripulantes permitido
+    static public final String PATRON_POR_DEFECTO = "Sin patrón";  // Nombre por defecto del patrón del velero
+    static public final String RUMBO_POR_DEFECTO = "Sin rumbo";    // Rumbo por defecto del velero
 
-    /**
-     * Atributos estáticos, privados de clase. Estas variables almacenan
-     * información relacionada con la clase en su conjunto, y se actualizan a
-     * medida que se crean veleros o se modifican sus estados de navegación.
-     *
-     * - numDeVelerosClase: el número total de veleros creados a lo largo de la
-     * ejecución del programa. Este valor se incrementa cada vez que se crea un
-     * nuevo velero. - numDeVelerosNavegandoClase: el número total de veleros
-     * actualmente navegando. Este valor se incrementa o decrementa según el
-     * estado de navegación de los veleros. - tiempoTotalDeNavegacionClase: el
-     * tiempo total acumulado de navegación de todos los veleros (en minutos).
-     * Este valor se actualiza cada vez que un velero termina su navegación.
-     */
-    static private int numDeVelerosClase;
-    static private int numDeVelerosNavegandoClase;
-    static private double tiempoTotalDeNavegacionClase;
+// Atributos estáticos privados y variables
+    static private int numDeVelerosClase;               // Número total de veleros creados hasta el momento
+    static private int numDeVelerosNavegandoClase;      // Número de veleros que están navegando actualmente
+    static private double tiempoTotalDeNavegacionClase; // Tiempo total acumulado de navegación de todos los veleros (en minutos)
 
-    /**
-     * Atributos privados e inmutables de objeto. Estas variables almacenan
-     * información específica de cada velero y definen sus características
-     * fundamentales.
-     *
-     * - nombre: el nombre del velero. Este valor se establece al crear una
-     * nueva instancia y no puede modificarse después. - maxTripulantes: el
-     * número máximo de tripulantes que puede tener el velero. Este valor se
-     * establece al crear una nueva instancia y define la capacidad de la
-     * embarcación. - numMastiles: el número de mástiles que tiene el velero.
-     * Este valor se establece al crear una nueva instancia y determina la
-     * estructura del velero.
-     */
-    private final String nombre;
-    private final int maxTripulantes;
-    private final int numMastiles;
+// ATRIBUTOS DE OBJETO
+// ------------------------------------------------------------------------
+// Atributos constantes durante la vida del velero (desde que se crea el objeto)
+    private final String nombre;                        // Nombre único que identifica al velero
+    private final int maxTripulantes;                   // Número máximo de tripulantes que puede llevar el velero
+    private final int numMastiles;                      // Número de mástiles que tiene el velero
 
-    /**
-     * Atributos privados de objeto. Estas variables almacenan información
-     * relacionada con el estado actual del velero y su navegación.
-     *
-     * - isNavegando: indica si el velero está actualmente navegando o no. Este
-     * valor se establece y actualiza según el estado del velero durante la
-     * ejecución. - velocidad: la velocidad actual del velero, medida en nudos.
-     * Este valor se ajusta durante la navegación y refleja la rapidez con la
-     * que se desplaza el velero. - tiempoTotalDeNavegacion: el tiempo total
-     * acumulado de navegación del velero, en minutos. Este valor se actualiza a
-     * medida que el velero navega y se incrementa cada vez que termina una
-     * navegación.
-     */
-    private boolean isNavegando;
-    private int velocidad;
-    private double tiempoTotalDeNavegacion;
+// Atributos variables del estado del barco
+    private boolean isNavegando;                        // Estado del velero: navegando (true) o detenido (false)
+    private int velocidad;                              // Velocidad actual del velero (en nudos)
+    private int tiempoTotalDeNavegacion;                // Tiempo total de navegación de este velero (en minutos)
+    private int numDeTripulantes;                       // Número actual de tripulantes a bordo del velero
+    private String rumbo;                               // Rumbo actual del velero (dirección en la que navega)
+    private String nombreDelPatron;                     // Nombre del patrón que comanda el velero
 
-    /**
-     * Atributos privados de objeto. Estas variables almacenan información
-     * relacionada con la tripulación y la navegación específica del velero.
-     *
-     * - numDeTripulantes: el número actual de tripulantes a bordo del velero.
-     * Este valor se establece inicialmente al crear el velero y puede
-     * modificarse al iniciar o parar la navegación, dependiendo de la cantidad
-     * de tripulantes a bordo en esos momentos. - rumbo: el rumbo actual del
-     * velero, que puede ser "ceñida" o "empopada". Este valor se asigna por
-     * defecto como "sin rumbo" al crear el velero. Luego, se establece cuando
-     * se inicia la navegación, y se resetea a "sin rumbo" cuando el velero
-     * detiene su navegación. - nombreDelPatron: el nombre del patrón que está
-     * al mando del velero. Este valor se asigna por defecto como "sin patrón"
-     * al crear el velero. Luego, se establece cuando se inicia la navegación, y
-     * se resetea a "sin patrón" cuando el velero detiene su navegación.
-     */
-    private int numDeTripulantes;
-    private String rumbo;
-    private String nombreDelPatron;
-
+    
     /**
      * Constructor con parámetros para crear una nueva instancia de un velero
      * con valores específicos. Este constructor permite inicializar un velero
@@ -265,7 +218,7 @@ public class Velero {
      *
      * @return El tiempo total de navegación del velero, en minutos.
      */
-    public double getTiempoTotalNavegacionBarco() {
+    public int getTiempoTotalNavegacionBarco() {
         return this.tiempoTotalDeNavegacion;
     }
 
@@ -632,10 +585,10 @@ public class Velero {
      */
     @Override
     public String toString() {
-        return String.format("{ Nombre del barco: %s, Número de mástiles: %d, Tripulación: %d, Navegando: %s, Tiempo total de navegación del barco: %.2f horas }",
+        return String.format("{ Nombre del barco: %s, Número de mástiles: %d, Tripulación: %d, Navegando: %s, Tiempo total de navegación del barco: %s horas }",
                 this.nombre, this.numMastiles, this.numDeTripulantes,
-                !this.isNavegando ? "No" : String.format("Si, con el patrón %s en %s a %d nudos,",
-                                this.nombreDelPatron, this.rumbo, this.velocidad), this.tiempoTotalDeNavegacion / 60);
+                !this.isNavegando ? "No" : String.format("Si, con el patrón %s en %s a %d nudos",
+                                this.nombreDelPatron, this.rumbo, this.velocidad), this.tiempoTotalDeNavegacion / 60.0);
     }
 
 }
