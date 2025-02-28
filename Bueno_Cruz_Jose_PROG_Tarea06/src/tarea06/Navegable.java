@@ -2,9 +2,9 @@ package tarea06;
 
 /**
  * 
- * @author nombre_apellidos_Alumno
+ * @author José Bueno Cruz
  */
 public interface Navegable {
-    
-
+    void iniciarNavegacion(int velocidad, String rumbo, String patron, int numTripulantes);
+    void pararNavegacion(int tiempoNavegacion);
 }
