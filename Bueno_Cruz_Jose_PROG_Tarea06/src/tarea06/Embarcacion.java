@@ -24,7 +24,7 @@ public abstract class Embarcacion implements Navegable {
     // ------------------------------------------------------------------------
     private static int numDeBarcosFlota;
     private static int numBarcosNavegandoFlota;
-    private static double tiempoDeNavegacionFlota;
+    private static float tiempoDeNavegacionFlota;
     
     // ------------------------------------------------------------------------
     // Atributos de objeto inmutables (privados)
@@ -43,18 +43,18 @@ public abstract class Embarcacion implements Navegable {
     // ------------------------------------------------------------------------
     // Representan el estado básico del barco en un momento dado
     // ------------------------------------------------------------------------
-    private boolean estaNavegandoBarco;
+    protected boolean estaNavegandoBarco;
     
     // ------------------------------------------------------------------------
     // Atributos de la información de navegación
     // ------------------------------------------------------------------------
     // Almacenan información sobre los parámetros de navegación
     // ------------------------------------------------------------------------
-    private int velocidadBarco;
-    private String nombreDelPatronBarco;
-    private String rumboBarco;
-    private int numDeTripulantesBarco;
-    private double tiempoTotalDeNavegacionBarco;
+    protected int velocidadBarco;
+    protected String nombreDelPatronBarco;
+    protected String rumboBarco;
+    protected int numDeTripulantesBarco;
+    protected int tiempoTotalDeNavegacionBarco;
     // ------------------------------------------------------------------------
     // Constructores de la clase
     // ------------------------------------------------------------------------
@@ -135,7 +135,7 @@ public abstract class Embarcacion implements Navegable {
     /**
      * @return the tiempoTotalDeNavegacionBarco
      */
-    public double getTiempoTotalDeNavegacionBarco() {
+    public int getTiempoTotalDeNavegacionBarco() {
         return tiempoTotalDeNavegacionBarco;
     } 
     
@@ -160,7 +160,7 @@ public abstract class Embarcacion implements Navegable {
     /**
      * @return the tiempoDeNavegacionFlota
      */
-    public static double getTiempoTotalNavegacion() {
+    public static float getTiempoTotalNavegacion() {
         return tiempoDeNavegacionFlota;
     }
     // ------------------------------------------------------------------------
@@ -168,19 +168,19 @@ public abstract class Embarcacion implements Navegable {
     // ------------------------------------------------------------------------
 
     /**
-     * @param rumboBarco the rumboBarco to set
+     * @param nuevoRumbo the rumboBarco to set
      */
-    public void setRumboBarco(String rumboBarco) {
+    public void setRumbo(String nuevoRumbo) {
 
         if (!this.estaNavegandoBarco) {
             throw new IllegalStateException(String.format("La embarcación %s no está navegando, no se puede cambiar el rumbo.", this.nombreBarco));   
         }
 
-        if (rumboBarco.equals(this.rumboBarco)) {
+        if (nuevoRumbo.equalsIgnoreCase(this.rumboBarco)) {
             throw new IllegalStateException(String.format("La embarcación %s ya está navegando con ese rumbo (%s), debes indicar un rumbo distinto para poder modificarlo.", this.nombreBarco, this.rumboBarco));
         }
         
-        this.rumboBarco = rumboBarco;
+        this.rumboBarco = nuevoRumbo;
         
     }
     
@@ -241,12 +241,11 @@ public abstract class Embarcacion implements Navegable {
     
     @Override
     public String toString(){
-        return String.format("Nombre de la embarcación: %s, Tripulación: %s, Está navegando: %s, Tiempo total de navegación del barco: %1.2f horas.", 
+        return String.format("Nombre de la embarcación: %s, Tripulación: %s, Navegando: %s, Tiempo total de navegación de la embarcación: %1.2f horas ", 
                 this.nombreBarco, this.numDeTripulantesBarco,
-                !this.estaNavegandoBarco ? "No" : String.format("Si, con el patrón %s a una velocidad de %s nudos.", 
-                        this.nombreDelPatronBarco, this.velocidadBarco),
+                !this.estaNavegandoBarco ? "No" : String.format("Si, con el patrón %s en %s a %s nudos.", 
+                        this.nombreDelPatronBarco, this.rumboBarco, this.velocidadBarco),
                 this.tiempoTotalDeNavegacionBarco / 60.0);
-                        
     }
      
 }
