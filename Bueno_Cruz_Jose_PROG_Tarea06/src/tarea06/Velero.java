@@ -6,7 +6,8 @@ package tarea06;
 /**
  * @author nombre_apellidos_Alumno
  */
-public class Velero {
+public final class Velero extends Embarcacion implements Regateable{
+
     // ------------------------------------------------------------------------
     // Atributos de la clase
     // ------------------------------------------------------------------------
@@ -15,6 +16,10 @@ public class Velero {
     // Constructores de la clase
     // ------------------------------------------------------------------------
 
+    public Velero(String nombre, int numMaxTripulantes) {
+        super(nombre, numMaxTripulantes);
+    }
+    
     // ------------------------------------------------------------------------
     // Getters (consultan el estado del objeto)
     // ------------------------------------------------------------------------
@@ -30,12 +35,22 @@ public class Velero {
     // ------------------------------------------------------------------------
     // Métodos de "acción" (almacenan la lógica y el comportamiento del objeto)
     // ------------------------------------------------------------------------
+    
+    @Override
+    public String iniciarRegata(Velero oponente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     // ------------------------------------------------------------------------
     // Método Abstracto sobreecrito
     // ------------------------------------------------------------------------
     
+    @Override
+    public void señalizar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     // ------------------------------------------------------------------------
     // Método toString (imprime el estado del objeto)
     // ------------------------------------------------------------------------
+
 }
