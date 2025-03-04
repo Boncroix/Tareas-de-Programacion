@@ -82,7 +82,7 @@ public final class Lancha extends Embarcacion {
     /**
      * @return the numDeLanchas
      */
-    public static int getNumDeLanchas() {
+    public static int getNumLanchas() {
         return numDeLanchas;
     }
     

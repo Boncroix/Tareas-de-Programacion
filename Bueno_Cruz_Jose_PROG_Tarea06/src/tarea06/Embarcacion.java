@@ -135,7 +135,7 @@ public abstract class Embarcacion implements Navegable {
     /**
      * @return the tiempoTotalDeNavegacionBarco
      */
-    public int getTiempoTotalDeNavegacionBarco() {
+    public int getTiempoTotalNavegacionBarco() {
         return tiempoTotalDeNavegacionBarco;
     } 
     
