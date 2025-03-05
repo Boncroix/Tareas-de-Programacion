@@ -31,16 +31,16 @@ public final class Lancha extends Embarcacion {
     // Constructores de la clase
     // ------------------------------------------------------------------------
 
-    public Lancha(String nombre, int numMotores, int nivelCombustible, int numMaxTripulantes) {
+    public Lancha(String nombre, int numMotores, int nivelCombustible, int numMaxTripulantes) throws IllegalArgumentException {
         
         super(nombre, numMaxTripulantes);
         
         if (numMotores < Lancha.MIN_MOTORES || numMotores > Lancha.MAX_MOTORES) {
-            throw new IllegalArgumentException(String.format("El número de motores debe estar entre %d y %d.", Lancha.MIN_MOTORES, Lancha.MAX_MOTORES));
+            throw new IllegalArgumentException(String.format("El número de motores debe estar entre %d y %d.\n", Lancha.MIN_MOTORES, Lancha.MAX_MOTORES));
         }
         
         if (nivelCombustible < Lancha.MIN_COMBUSTIBLE || nivelCombustible > Lancha.MAX_COMBUSTIBLE) {
-            throw new IllegalArgumentException(String.format("El nivel de combustible debe estar entre %d y %d.", Lancha.MIN_COMBUSTIBLE, Lancha.MAX_MOTORES));
+            throw new IllegalArgumentException(String.format("El nivel de combustible debe estar entre %d y %d.\n", Lancha.MIN_COMBUSTIBLE, Lancha.MAX_MOTORES));
         }
         
         this.numMotores = numMotores;
@@ -91,31 +91,32 @@ public final class Lancha extends Embarcacion {
     // ------------------------------------------------------------------------
     
     @Override
-    public void iniciarNavegacion(int velocidad, String rumbo, String patron, int numTripulantes){
+    public void iniciarNavegacion(int velocidad, String rumbo, String patron, int numTripulantes) throws IllegalStateException, IllegalArgumentException, NullPointerException {
         
-        if (this.nivelCombustible < Lancha.MIN_COMBUSTIBLE || this.nivelCombustible < Lancha.MAX_COMBUSTIBLE) {
-            throw  new IllegalStateException(String.format("La lancha %s no tiene un nivel de combustible válido para iniciar la navegación (solo %d litros).", this.getNombreBarco(), this.nivelCombustible));
+        if (this.nivelCombustible < Lancha.MIN_COMBUSTIBLE || this.nivelCombustible > Lancha.MAX_COMBUSTIBLE) {
+            throw  new IllegalStateException(String.format("La lancha %s no tiene un nivel de combustible válido para iniciar la navegación (solo %d litros).\n", this.getNombreBarco(), this.nivelCombustible));
         }
         
         if (velocidad < Lancha.MIN_VELOCIDAD_LANCHA || velocidad > Lancha.MAX_VELOCIDAD_LANCHA) {
-            throw  new IllegalArgumentException(String.format("La velocidad de navegación de %d nudos asignada a %s es incorrecta.", velocidad, this.getNombreBarco()));
+            throw  new IllegalArgumentException(String.format("La velocidad de navegación de %d nudos asignada a %s es incorrecta.\n", velocidad, this.getNombreBarco()));
         }
         
         super.iniciarNavegacion(velocidad, rumbo, patron, numTripulantes);
     }
     
     @Override
-    public void pararNavegacion(int tiempoNavegacion){
+    public void pararNavegacion(int tiempoNavegacion) throws IllegalStateException, IllegalArgumentException {
         
         double cantidadCombustibleConsumido = this.velocidadBarco * tiempoNavegacion * Lancha.FACTOR_COMBUSTIBLE;
-        
-        if (cantidadCombustibleConsumido < 0) {
-            throw new IllegalStateException("Calculo de consumo combustible erroneo.");
-        }
         
         super.pararNavegacion(tiempoNavegacion);
         
         this.nivelCombustible -= (int) Math.round(cantidadCombustibleConsumido);
+        
+        if (this.nivelCombustible < 0) {
+            this.nivelCombustible = 0;
+        }
+        
    
     }
 
@@ -124,17 +125,17 @@ public final class Lancha extends Embarcacion {
     // ------------------------------------------------------------------------
     
     @Override
-    public void setRumbo(String nuevoRumbo){
+    public void setRumbo(String nuevoRumbo) throws IllegalStateException, IllegalArgumentException, NullPointerException{
         
         if (nuevoRumbo == null) {
-            throw new NullPointerException("El rumbo no puede ser nulo, debes indicar el rumbo (norte, sur, este u oeste) para poder modificarlo.");
+            throw new NullPointerException("El rumbo no puede ser nulo, debes indicar el rumbo (norte, sur, este u oeste) para poder modificarlo.\n");
         }
         
         if (!nuevoRumbo.equalsIgnoreCase("Norte") &&
                 !nuevoRumbo.equalsIgnoreCase("Sur") &&
                 !nuevoRumbo.equalsIgnoreCase("Este") &&
                 !nuevoRumbo.equalsIgnoreCase("Oeste")){
-            throw new IllegalArgumentException("El rumbo no es correcto, debes indicar el rumbo (norte, sur, este u oeste) para poder modificarlo.");
+            throw new IllegalArgumentException("El rumbo no es correcto, debes indicar el rumbo (norte, sur, este u oeste) para poder modificarlo.\n");
         }
             
         super.setRumbo(nuevoRumbo);

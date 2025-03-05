@@ -22,9 +22,9 @@ public abstract class Embarcacion implements Navegable {
     // No dependen de instancias de objetos particulares y sólo pueden 
     // modificarse desde la propia clase
     // ------------------------------------------------------------------------
-    private static int numDeBarcosFlota;
-    private static int numBarcosNavegandoFlota;
-    private static float tiempoDeNavegacionFlota;
+    private static int numBarcos;
+    private static int numBarcosNavegando;
+    private static float tiempoDeNavegacion;
     
     // ------------------------------------------------------------------------
     // Atributos de objeto inmutables (privados)
@@ -58,25 +58,25 @@ public abstract class Embarcacion implements Navegable {
     // ------------------------------------------------------------------------
     // Constructores de la clase
     // ------------------------------------------------------------------------
-    public Embarcacion(String nombre, int numMaxTripulantes) {
-
+    public Embarcacion(String nombre, int numMaxTripulantes) throws IllegalArgumentException, NullPointerException {
+        
         if (nombre == null) {
-            throw new NullPointerException("El nombre de la embarcación no puede ser nulo.");
+            throw new NullPointerException("El nombre de la embarcación no puede ser nulo.\n");
         }
   
         if (nombre.isEmpty()) {
-            throw  new IllegalArgumentException("El nombre de la embarcación no puede estar vacío.");
+            throw  new IllegalArgumentException("El nombre de la embarcación no puede estar vacío.\n");
         }
 
-        if (numMaxTripulantes > Embarcacion.MIN_TRIPULANTES) {
-            throw new IllegalArgumentException(String.format("El número de tripulantes debe ser, como mínimo, %d.", Embarcacion.MIN_TRIPULANTES));
+        if (numMaxTripulantes < Embarcacion.MIN_TRIPULANTES) {
+            throw new IllegalArgumentException(String.format("El número de tripulantes debe ser, como mínimo, %d.\n", Embarcacion.MIN_TRIPULANTES));
         }
 
         this.nombreBarco = nombre;
         this.numMaxTripulantesBarco = numMaxTripulantes;
         this.nombreDelPatronBarco = Embarcacion.PATRON_POR_DEFECTO;
         this.rumboBarco = Embarcacion.RUMBO_POR_DEFECTO;
-        Embarcacion.numBarcosNavegandoFlota++;
+        Embarcacion.numBarcos++;
         
     }
     // ------------------------------------------------------------------------
@@ -147,21 +147,21 @@ public abstract class Embarcacion implements Navegable {
      * @return the numDeBarcosFlota
      */
     public static int getNumBarcos() {
-        return numDeBarcosFlota;
+        return numBarcos;
     }
 
     /**
      * @return the numBarcosNavegandoFlota
      */
     public static int getNumBarcosNavegando() {
-        return numBarcosNavegandoFlota;
+        return numBarcosNavegando;
     }
 
     /**
      * @return the tiempoDeNavegacionFlota
      */
     public static float getTiempoTotalNavegacion() {
-        return tiempoDeNavegacionFlota;
+        return tiempoDeNavegacion;
     }
     // ------------------------------------------------------------------------
     // Métodos de "acción" (almacenan la lógica y el comportamiento del objeto)
@@ -170,14 +170,14 @@ public abstract class Embarcacion implements Navegable {
     /**
      * @param nuevoRumbo the rumboBarco to set
      */
-    public void setRumbo(String nuevoRumbo) {
+    public void setRumbo(String nuevoRumbo) throws IllegalStateException {
 
         if (!this.estaNavegandoBarco) {
-            throw new IllegalStateException(String.format("La embarcación %s no está navegando, no se puede cambiar el rumbo.", this.nombreBarco));   
+            throw new IllegalStateException(String.format("La embarcación %s no está navegando, no se puede cambiar el rumbo.\n", this.nombreBarco));   
         }
 
         if (nuevoRumbo.equalsIgnoreCase(this.rumboBarco)) {
-            throw new IllegalStateException(String.format("La embarcación %s ya está navegando con ese rumbo (%s), debes indicar un rumbo distinto para poder modificarlo.", this.nombreBarco, this.rumboBarco));
+            throw new IllegalStateException(String.format("La embarcación %s ya está navegando con ese rumbo (%s), debes indicar un rumbo distinto para poder modificarlo.\n", this.nombreBarco, this.rumboBarco));
         }
         
         this.rumboBarco = nuevoRumbo;
@@ -185,47 +185,59 @@ public abstract class Embarcacion implements Navegable {
     }
     
     @Override
-    public void iniciarNavegacion(int velocidad, String rumbo, String patron, int numTripulantes) {
+    public void iniciarNavegacion(int velocidad, String rumbo, String patron, int numTripulantes) throws IllegalStateException, IllegalArgumentException, NullPointerException {
         
-        if (!this.estaNavegandoBarco) {
-            throw new IllegalStateException(String.format("La embarcación %s ya está navegando y se encuentra fuera de puerto.", this.nombreBarco));
+        if (this.estaNavegandoBarco) {
+            throw new IllegalStateException(String.format("La embarcación %s ya está navegando y se encuentra fuera de puerto.\n", this.nombreBarco));
         }
         
         if (rumbo == null) {
-            throw  new NullPointerException("El rumbo no puede ser nulo, debes indicar el rumbo para iniciar la navegación.");
+            throw  new NullPointerException("El rumbo no puede ser nulo, debes indicar el rumbo para iniciar la navegación.\n");
         }
         
         if (rumbo.isEmpty()) {
-            throw  new IllegalArgumentException("El rumbo no puede estar vacío, debes indicar el rumbo para iniciar la navegación.");
+            throw  new IllegalArgumentException("El rumbo no puede estar vacío, debes indicar el rumbo para iniciar la navegación.\n");
         }
         
         if (patron == null) {
-            throw  new NullPointerException("El patrón de la embarcación no puede ser nulo, se necesita un patrón para iniciar la navegación.");
+            throw  new NullPointerException("El patrón de la embarcación no puede ser nulo, se necesita un patrón para iniciar la navegación.\n");
         }
         
         if (patron.isEmpty()) {
-            throw  new IllegalArgumentException("El patrón de la embarcación no puede estar vacío, se necesita un patrón para iniciar la navegación.");
+            throw  new IllegalArgumentException("El patrón de la embarcación no puede estar vacío, se necesita un patrón para iniciar la navegación.\n");
         }
         
         if (numTripulantes < Embarcacion.MIN_TRIPULANTES) {
-            throw  new IllegalArgumentException(String.format("El número de tripulantes debe estar entre %d y %d.", Embarcacion.MIN_TRIPULANTES, this.numMaxTripulantesBarco));
+            throw  new IllegalArgumentException(String.format("El número de tripulantes debe estar entre %d y %d.\n", Embarcacion.MIN_TRIPULANTES, this.numMaxTripulantesBarco));
         }
         
         this.estaNavegandoBarco = true;
+        this.velocidadBarco = velocidad;
+        this.rumboBarco = rumbo;
+        this.nombreDelPatronBarco = patron;
+        this.numDeTripulantesBarco = numTripulantes;
+        Embarcacion.numBarcosNavegando++;
     }
     
     @Override
-    public void pararNavegacion(int tiempoNavegacion) {
+    public void pararNavegacion(int tiempoNavegacion) throws IllegalStateException, IllegalArgumentException {
         
         if (!this.estaNavegandoBarco) {
-            throw new  IllegalStateException(String.format("La embarcación %s no está navegando.", this.nombreBarco));
+            throw new  IllegalStateException(String.format("La embarcación %s no está navegando.\n", this.nombreBarco));
         }
         
         if (tiempoNavegacion < 0) {
-            throw new  IllegalArgumentException("Tiempo navegando incorrecto, debe ser mayor que cero.");
+            throw new  IllegalArgumentException("Tiempo navegando incorrecto, debe ser mayor que cero.\n");
         }
         
         this.estaNavegandoBarco = false;
+        this.velocidadBarco = 0;
+        this.rumboBarco = Embarcacion.RUMBO_POR_DEFECTO;
+        this.nombreDelPatronBarco = Embarcacion.PATRON_POR_DEFECTO;
+        this.numDeTripulantesBarco = 0;
+        this.tiempoTotalDeNavegacionBarco += tiempoNavegacion;
+        Embarcacion.tiempoDeNavegacion += tiempoNavegacion;
+        Embarcacion.numBarcosNavegando--;
     }
     
     
@@ -241,9 +253,9 @@ public abstract class Embarcacion implements Navegable {
     
     @Override
     public String toString(){
-        return String.format("Nombre de la embarcación: %s, Tripulación: %s, Navegando: %s, Tiempo total de navegación de la embarcación: %1.2f horas ", 
+        return String.format("Nombre de la embarcación: %s, Tripulación: %s, Navegando: %s, Tiempo total de navegación de la embarcación: %1.2f horas", 
                 this.nombreBarco, this.numDeTripulantesBarco,
-                !this.estaNavegandoBarco ? "No" : String.format("Si, con el patrón %s en %s a %s nudos.", 
+                !this.estaNavegandoBarco ? "No" : String.format("Sí, con el patrón %s en %s a %s nudos", 
                         this.nombreDelPatronBarco, this.rumboBarco, this.velocidadBarco),
                 this.tiempoTotalDeNavegacionBarco / 60.0);
     }
