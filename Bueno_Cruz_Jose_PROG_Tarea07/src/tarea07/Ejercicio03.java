@@ -40,16 +40,3 @@ public class Ejercicio03 {
         }
     }
 }
-
-
-/*
-        // Recorremos la lista de códigos del ciclo de DAW (curso-codigo de modulo)
-        while (iterator.hasNext()) {  
-            String elemento = iterator.next();
-            int curso =  Integer.parseInt(elemento.split("-")[0]);
-            int codigoModulo = Integer.parseInt(elemento.split("-")[1]);
-            // insertamos en el mapa los datos
-            mapCodigosPorCurso.putIfAbsent(curso, new ArrayList<>());
-            mapCodigosPorCurso.get(curso).add(codigoModulo);
-        }
-*/
