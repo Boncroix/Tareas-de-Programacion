@@ -10,10 +10,10 @@ import java.util.*;
 public class Ejercicio03 {
 
     public static void main(String[] args) {
-        
+
         System.out.println("CÓDIGOS DE LOS MÓDULOS DE DAW POR CURSOS");
         System.out.println("----------------------------------------");
-        
+
         //----------------------------------------------
         //                  Procesamiento
         //----------------------------------------------
@@ -21,18 +21,16 @@ public class Ejercicio03 {
         String[] arrayCodigosModulosDAW = Utilidades.getArrayCodigosModulosDAW();
         List<String> modulosDAW = new ArrayList<>(Arrays.asList(arrayCodigosModulosDAW));
         Map<Integer, List<Integer>> mapCodigosPorCurso = new HashMap<>();
-        
+
         // Recorremos la lista de códigos del ciclo de DAW (curso-codigo de modulo)
         for (String elemento : modulosDAW) {
-            int curso =  Integer.parseInt(elemento.split("-")[0]);
+            int curso = Integer.parseInt(elemento.split("-")[0]);
             int codigoModulo = Integer.parseInt(elemento.split("-")[1]);
             // insertamos en el mapa los datos
             mapCodigosPorCurso.putIfAbsent(curso, new ArrayList<>());
             mapCodigosPorCurso.get(curso).add(codigoModulo);
         }
-        
-        
-        
+
         //----------------------------------------------
         //           Salida de resultados
         //----------------------------------------------
