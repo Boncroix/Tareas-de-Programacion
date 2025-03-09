@@ -39,13 +39,16 @@ public class Ejercicio02 {
         Utilidades.mostrarModulos(modulosDAM);
 
         // Recorremos la lista de modulos de DAW
+        int index = 0;
         while (iterDAW.hasNext()) {
             String elemento = iterDAW.next();
             if (!elemento.contains("i")) {
-                elemento = "**" + elemento + "**";
                 modulosMatriculadosSet.add(elemento);
                 modulosmatriculadosList.add(elemento);
+                elemento = "**" + elemento + "**";
+                modulosDAW.set(index, elemento);
             }
+            index++;
         }
 
         // Ordenación de la lista por nombre del módulo (alfabético) y la mostramos por pantalla
