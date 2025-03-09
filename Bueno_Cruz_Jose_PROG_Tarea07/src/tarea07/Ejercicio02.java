@@ -111,9 +111,10 @@ class ComparadorModuloPorCodigo implements Comparator<String> {
     public int compare(String modulo1, String modulo2) {
         
         String codigo1 = modulo1.split("-")[0];
-        String codigo2 = modulo1.split("-")[0];
+        String codigo2 = modulo2.split("-")[0];
 
         return codigo1.compareTo(codigo2);
+        
     }
 
 }
