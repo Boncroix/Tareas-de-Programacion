@@ -90,11 +90,11 @@ public class Ejercicio1 {
                 // Dividimos la línea usando el delimitador ","
                 atributos = linea.split(";");
                 // Escribimos los detalles de cada libro en el archivo
-                writer.write("TITULO DEL LIBRO:" + atributos[0] + "\n"); 
-                writer.write("AUTOR:" + atributos[1] + "\n"); 
-                writer.write("FECHA DE CREACION:" + atributos[2] + "\n"); 
-                writer.write("GENERO:" + atributos[3] + "\n"); 
-                writer.write("CAPITULOS:" + atributos[4] + "\n");
+                writer.write("TITULO DEL LIBRO: " + atributos[0].substring(1) + "\n"); 
+                writer.write("AUTOR: " + atributos[1] + "\n"); 
+                writer.write("FECHA DE CREACIÓN: " + atributos[2] + "\n"); 
+                writer.write("GENERO: " + atributos[3] + "\n"); 
+                writer.write("CAPITULOS: " + atributos[4] + "\n");
                 writer.write("**********************************************************************************************\n");
             }
 
