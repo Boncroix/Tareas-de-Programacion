@@ -1,21 +1,21 @@
 **********************************************************************************************
 LIBRO DE LIBROS 
 **********************************************************************************************
-TITULO DEL LIBRO:#El enigma de la montaÃ±a
-AUTOR:Carlos Gonzalez
-FECHA DE CREACIÃ“N:2015-07-15
+TITULO DEL LIBRO:#El enigma de la monta–a
+AUTOR:Carlos Gonz‡lez
+FECHA DE CREACION:2015-07-15
 GENERO:Aventura
 CAPITULOS:[La llamada del destino, El ascenso peligroso, Enfrentando la tormenta, El descubrimiento final.]
 **********************************************************************************************
 TITULO DEL LIBRO:#Caminos de la mente
-AUTOR:Elena RodriÂ­guez
-FECHA DE CREACIÃ“N:2019-09-30
-GENERO:FilosofiÂ­a
-CAPITULOS:[El despertar de la consciencia, La busqueda del yo, Pensamientos y realidades, Trascender el ego.]
+AUTOR:Elena Rodr’guez
+FECHA DE CREACION:2019-09-30
+GENERO:Filosof’a
+CAPITULOS:[El despertar de la consciencia, La bœsqueda del yo, Pensamientos y realidades, Trascender el ego.]
 **********************************************************************************************
-TITULO DEL LIBRO:#El codigo del hacker
-AUTOR:David Fernandez
-FECHA DE CREACIÃ“N:2021-04-12
-GENERO:TecnologiÂ­a
-CAPITULOS:[La historia de los hackers, CriptografiÂ­a basica, Redes y seguridad, Etica del hacking.]
+TITULO DEL LIBRO:#El c—digo del hacker
+AUTOR:David Fern‡ndez
+FECHA DE CREACION:2021-04-12
+GENERO:Tecnolog’a
+CAPITULOS:[La historia de los hackers, Criptograf’a b‡sica, Redes y seguridad, ƒtica del hacking.]
 **********************************************************************************************

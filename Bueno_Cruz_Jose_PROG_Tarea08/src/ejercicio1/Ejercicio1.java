@@ -78,11 +78,11 @@ public class Ejercicio1 {
         // Obtenemos la representación en cadena de la biblioteca
         String toString = biblioteca.toString();
         
-        try (OutputStreamWriter fichero = new OutputStreamWriter(new FileOutputStream(rutaFichero), "UTF-8")) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaFichero))) {
             // Escribimos un encabezado en el archivo
-            fichero.write("**********************************************************************************************\n"); 
-            fichero.write("LIBRO DE LIBROS \n"); 
-            fichero.write("**********************************************************************************************\n"); 
+            writer.write("**********************************************************************************************\n"); 
+            writer.write("LIBRO DE LIBROS \n"); 
+            writer.write("**********************************************************************************************\n"); 
             // Dividimos el string resultante de la biblioteca en líneas
             String[] lineas = toString.split("\n");
             // Recorremos cada línea para escribir la información de cada libro
@@ -90,12 +90,12 @@ public class Ejercicio1 {
                 // Dividimos la línea usando el delimitador ","
                 atributos = linea.split(";");
                 // Escribimos los detalles de cada libro en el archivo
-                fichero.write("TITULO DEL LIBRO:" + atributos[0] + "\n"); 
-                fichero.write("AUTOR:" + atributos[1] + "\n"); 
-                fichero.write("FECHA DE CREACIÓN:" + atributos[2] + "\n"); 
-                fichero.write("GENERO:" + atributos[3] + "\n"); 
-                fichero.write("CAPITULOS:" + atributos[4] + "\n");
-                fichero.write("**********************************************************************************************\n");
+                writer.write("TITULO DEL LIBRO:" + atributos[0] + "\n"); 
+                writer.write("AUTOR:" + atributos[1] + "\n"); 
+                writer.write("FECHA DE CREACION:" + atributos[2] + "\n"); 
+                writer.write("GENERO:" + atributos[3] + "\n"); 
+                writer.write("CAPITULOS:" + atributos[4] + "\n");
+                writer.write("**********************************************************************************************\n");
             }
 
         } catch (IOException e) {

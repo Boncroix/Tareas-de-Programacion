@@ -1,6 +1,7 @@
 package ejercicio2;
 
 import com.thoughtworks.xstream.XStream;
+import java.io.*;
 
 /**
  * Clase que permite serializar un objeto Biblioteca al formato XML y 
@@ -11,11 +12,11 @@ import com.thoughtworks.xstream.XStream;
 public class BibliotecaXML {
     
      // Ruta del archivo donde se lee y escribe el objeto Biblioteca
-    private String rutaArchivo;
+    private final String rutaArchivo;
     
     
     // Objeto Xstream que permite la L/E con archivos XML
-    private XStream xstream;
+    private final XStream xstream;
 
     /**
      * Metodo constructor
@@ -41,7 +42,17 @@ public class BibliotecaXML {
      * @param biblioteca Objeto Biblioteca serializable para almacenar en el archivo de texto.
      */    
     public void escribir(Biblioteca biblioteca) {
-        // Incluir el codigo que debe realizar el metodo
+        // Convierte el objeto Biblioteca a formato XML
+        String xml = xstream.toXML(biblioteca);
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.rutaArchivo))) {
+            // Escribe el XML en el archivo
+            writer.write(xml);
+        } catch (IOException e) {
+            // Captura cualquier error de escritura en el archivo
+            System.err.println("Error al crear el fichero: " + e.getMessage());
+        }
+        
     }
     
     // 3.2. Metodo leer()
@@ -50,6 +61,22 @@ public class BibliotecaXML {
      * @return Objecto Biblioteca que estaba almacenado en el archivo de texto.
      */
     public Biblioteca leer() {
-        return null; // Sustituir este return por el codigo que resuelve el ejercicio
+        
+        Biblioteca biblioteca = null;
+        
+        try(BufferedReader reader = new BufferedReader(new FileReader(this.rutaArchivo))) {
+            // Lee y deserializa el archivo XML
+            biblioteca = (Biblioteca) xstream.fromXML(reader);
+        } catch (IOException ex) {
+            // Captura cualquier error de lectura del archivo
+            System.err.println("Error al leer el fichero: " + ex.getMessage());
+        } catch (com.thoughtworks.xstream.XStreamException ex) {
+            // Captura errores durante la deserialización XML
+            System.err.println("Error al deserializar XML: " + ex.getMessage());
+        }
+        
+        // Devuelve el objeto deserializado
+        return biblioteca;
+   
     }
 }
