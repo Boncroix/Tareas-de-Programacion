@@ -1,0 +1,84 @@
+.root {
+    -fx-background-color: black; /* Fondo gris claro */
+    -fx-padding: 10px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
+
+.text-field {
+    -fx-background-color: white;    /* Color de fondo */
+    -fx-pref-height: 50px;          /* Alto preferido */
+    -fx-font-size: 20px;            /* Tamaño de la fuente */
+    -fx-background-radius: 25px;    /* Radio de las esquinas */
+    -fx-border-radius: 25px;        /* Radio del borde */
+    -fx-border-color: gray;         /* Color del borde */
+    -fx-border-width: 4px;          /* Grosor del borde */
+}
+
+.button {
+    -fx-background-color: white;    /* Color de fondo */
+    -fx-pref-width: 50px;           /* Ancho preferido */
+    -fx-pref-height: 50px;          /* Alto preferido */
+    -fx-font-size: 20px;            /* Tamaño de la fuente */
+    -fx-text-fill: orange;          /* Color del texto */
+    -fx-background-radius: 25px;    /* Radio de las esquinas */
+
+}
+
+.button:hover {
+    -fx-background-color: gray;      /* Color de fondo */
+    -fx-text-fill: white;              /* Color del texto */
+}
+
+.button:pressed {
+    -fx-background-color: orange;      /* Color de fondo */
+    -fx-text-fill: white;              /* Color del texto */
+}
+
+/* Estilos específicos para operadores */
+.button.operador {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+.button.operador:hover {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+.button.operador:pressed {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+/* Estilos específicos para el botón de igual */
+.button.igual {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+.button.igual:hover {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+.button.igual:pressed {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+/* Estilos específicos para el botón de limpiar */
+.button.limpiar {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+.button.limpiar:hover {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
+
+.button.limpiar:pressed {
+    /*Añade las propiedades que consideres necesarias
+     y modifica sus valores para cambiar el aspecto*/
+}
