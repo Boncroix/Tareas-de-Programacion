@@ -3,7 +3,6 @@ package aplicacionJDBC;
 import H2.H2JDBC;
 import H2.H2ServerManager;
 import util.*;
-import aplicacionJPA.GestorEntidadesJPA;
 import java.util.Scanner;
 
 /**
@@ -70,16 +69,17 @@ public class PrincipalJDBC {
                             System.out.println(Supermercado.productosDeSección(idSeccion));
                             break;
                         case "EN":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            System.out.println(Supermercado.selectAllEmpleadosOrderBy("nombre"));
                             break;
                         case "ECE":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            System.out.println(Supermercado.selectAllEmpleadosOrderBy("id_empleado"));
                             break;
                         case "ECS":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            System.out.println(Supermercado.selectAllEmpleadosOrderBy("id_seccion"));
                             break;
                         case "ES":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            idSeccion = EntradaTeclado.cadenaLimitada("Código de sección:", 2, 2);
+                            System.out.println(Supermercado.empleadosDeSección(idSeccion));
                             break;
                         case "IP":
                             idSeccion = EntradaTeclado.cadenaLimitada("Código de sección:", 2, 2);
@@ -87,7 +87,9 @@ public class PrincipalJDBC {
                             System.out.println(Supermercado.actualizarPrecioSeccion(idSeccion, interes));
                             break;
                         case "IS":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            idSeccion = EntradaTeclado.cadenaLimitada("Código de sección:", 2, 2);
+                            interes = EntradaTeclado.nDoublePositivo("Porcentaje de subida de salario:", 2);
+                            System.out.println(Supermercado.aumentarSalarioSeccion(idSeccion, interes));
                             break;
                         case "AC":
                             H2ServerManager.abrirConsolaH2EnNavegador();

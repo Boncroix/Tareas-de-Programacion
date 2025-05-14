@@ -195,20 +195,101 @@ public class Supermercado {
     /**
      * Realiza una consulta de todos los empleados de la base de datos y los
      * ordena según el parámetro proporcionado.
-     *
+     * 
+     * @param orderBy El criterio por el cual se ordenarán los empleados
+     * @return Un String con la lista de empleados ordenada, o un mensaje de error si ocurre un fallo
      */
-    //  ¡¡¡ATENCIÓN!!! Método no implementado.
+    public static String selectAllEmpleadosOrderBy(String orderBy) {
+        StringBuilder resultadoSelect = new StringBuilder();
+
+        resultadoSelect.append(String.format("Empleados ordenados por %s%n", orderBy));
+
+        // Definir el formato de las columnas
+        String formatoCabecera = "%-6s %-40s %13s %7s%n";
+        String formatoFila = "%-6s %-40s %13d %7s%n";
+
+        // Agregar cabecera
+        resultadoSelect.append(Color.azul(String.format(formatoCabecera,
+                "CÓDIGO",
+                "NOMBRE",
+                "SALARIO ANUAL",
+                "SECCIÓN")));
+
+        String sentenciaSQL = "SELECT * FROM empleado ORDER BY " + orderBy + " ASC";
+
+        try (PreparedStatement st = H2JDBC.getConexion().prepareStatement(sentenciaSQL)) {
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                resultadoSelect.append(String.format(formatoFila,
+                        rs.getString("id_empleado"),
+                        rs.getString("nombre"),
+                        rs.getInt("salario_anual"),
+                        rs.getString("id_seccion")));
+            }
+        } catch (SQLException ex) {
+            resultadoSelect.append(Color.rojo(String.format("ERROR al ordenar por %s.%n", orderBy)));
+        }
+        return resultadoSelect.toString();
+    }
     
     /**
      * Devuelve una lista de los empleados de una sección específica.
      *
+     * @param id_seccion El identificador de la sección cuyos empleados se mostrarán
+     * @return Un String con la lista de empleados de la sección o un mensaje de error si ocurre un fallo
      */
-    //  ¡¡¡ATENCIÓN!!! Método no implementado.
-    
+    public static String empleadosDeSección(String id_seccion) {
+        StringBuilder resultadoSelect = new StringBuilder();
+
+        resultadoSelect.append(String.format("Lista de empleados de la sección [%s]\n", Supermercado.descripcionSeccion(id_seccion)));
+        try (PreparedStatement st = H2JDBC.getConexion().prepareStatement("SELECT * FROM empleado WHERE UPPER(id_seccion) LIKE ? ORDER BY nombre")) {
+            st.setString(1, id_seccion);
+            ResultSet rs = st.executeQuery();
+            if (!rs.isBeforeFirst()) { // Verifica si hay al menos una fila en el resultset
+                resultadoSelect.append(Color.rojo("No hay empleados en esta sección o la sección no existe."));
+            } else {
+                resultadoSelect.append(String.format("%-40s %-13s\n", "NOMBRE", "SALARIO ANUAL"));
+
+                // Filas de productos con formato de ancho fijo
+                while (rs.next()) {
+                    resultadoSelect.append(String.format("%-40s %13d\n",
+                            rs.getString("nombre"),
+                            rs.getInt("salario_anual")));
+                }
+            }
+        } catch (SQLException ex) {
+            resultadoSelect.append(String.format("ERROR: no se pueden listar los empleados de la sección %s.", id_seccion)).append("\n");
+        }
+        return resultadoSelect.toString();
+    }
+  
     /**
      * Aumenta el salario de todos los empleados de una sección aplicando un
      * porcentaje.
      *
+     * @param id_seccion El identificador de la sección cuyos empleados se actualizarán
+     * @param porcentaje El porcentaje de aumento a aplicar
+     * @return Un String con el resultado de la operación
      */
-    //  ¡¡¡ATENCIÓN!!! Método no implementado.
+    public static String aumentarSalarioSeccion(String id_seccion, double porcentaje) {
+        StringBuilder resultado = new StringBuilder();
+
+        String sentenciaSQL = "UPDATE empleado SET salario_anual = salario_anual + (salario_anual * ? / 100) WHERE id_seccion = ?";
+
+        try (PreparedStatement st = H2JDBC.getConexion().prepareStatement(sentenciaSQL)) {
+            st.setDouble(1, porcentaje);
+            st.setString(2, id_seccion);
+            int filasAfectadas = st.executeUpdate();
+
+            resultado.append(String.format("Actualizando los precios de %d empleados en la sección %s...", filasAfectadas, Supermercado.descripcionSeccion(id_seccion)));
+            if (filasAfectadas > 0) {
+                resultado.append(Color.verde("OK"));
+            } else {
+                resultado.append(Color.rojo(String.format("La sección no tiene empleados.")));
+            }
+        } catch (SQLException e) {
+            resultado.append(Color.rojo(String.format("ERROR: Falló la actualización de los salarios en la sección %s: %s%n", id_seccion, e.getMessage())));
+        }
+        return resultado.toString();
+    }
 }

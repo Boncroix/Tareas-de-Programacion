@@ -82,20 +82,19 @@ public class PrincipalJPA {
                             GestorEntidadesJPA.eliminarProducto();
                             break;
                         case "IE":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            GestorEntidadesJPA.insertarEmpleado();
                             break;
                         case "CE":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            GestorEntidadesJPA.consultarEmpleado();
                             break;
                         case "LE":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            GestorEntidadesJPA.listarEmpleados();
                             break;
                         case "ME":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
-                            ;
+                            GestorEntidadesJPA.modificarEmpleado();
                             break;
                         case "EE":
-                            System.out.println(Color.rojo("<<<Opción no implementada>>>"));
+                            GestorEntidadesJPA.eliminarEmpleado();
                             break;
                         case "AC":
                             H2ServerManager.abrirConsolaH2EnNavegador();

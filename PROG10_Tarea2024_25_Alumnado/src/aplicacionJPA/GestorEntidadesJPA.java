@@ -28,6 +28,10 @@ public class GestorEntidadesJPA {
      * DAO (Data Access Object) para la entidad producto
      */
     private static final GestorDePersistenciaGenerico<Producto> productoDAO = new GestorDePersistenciaGenerico<>(Producto.class);
+    /**
+     * DAO (Data Access Object) para la entidad empleado
+     */
+    private static final GestorDePersistenciaGenerico<Empleado> empleadoDAO = new GestorDePersistenciaGenerico<>(Empleado.class);
     
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -267,33 +271,133 @@ public class GestorEntidadesJPA {
      * Inserta un nuevo empleado mediante datos introducidos por el usuario.
      */
     public static void insertarEmpleado() {
-        //  ¡¡¡ATENCIÓN!!! Método no implementado.
+        String idEmpleado = EntradaTeclado.cadenaLimitada("Código de empleado:", 4, 4); //Longitud del código de empleado 4 caracteres
+        String nombre = EntradaTeclado.cadenaLimitada("Nombre:", 0, 40);
+        int salarioAnual = EntradaTeclado.nEnteroPositivo("Salario Anual:");
+        String idSeccion = EntradaTeclado.cadenaLimitada("Código de sección:", 2, 2);
+
+        Seccion seccion = seccionDAO.buscar(idSeccion);
+
+        Empleado empleado = new Empleado();
+        empleado.setIdEmpleado(idEmpleado);
+        empleado.setNombre(nombre);
+        empleado.setSalarioAnual(salarioAnual);
+        empleado.setSeccion(seccion);
+
+        // Usando el DAO genérico
+        System.out.println("---------------------------------------------");
+        if (empleadoDAO.insertar(empleado)) {
+            System.out.println(Color.verde("OK: Empleado añadido."));
+        } else {
+            System.out.println(Color.rojo("ERROR: No se pudo insertar el empleado."));
+            if (empleadoDAO.buscar(idEmpleado) != null) {
+                System.out.println(Color.rojo(String.format("  --> El empleado %s ya existe.", idEmpleado)));
+            }
+            if (seccionDAO.buscar(idSeccion) == null) {
+                System.out.println(Color.rojo(String.format("  --> La sección %s no existe.", idSeccion)));
+            }
+        }
+        System.out.println("---------------------------------------------");
     }
 
     /**
      * Consulta e imprime los datos de un empleado por su código.
      */
     public static void consultarEmpleado() {
-        //  ¡¡¡ATENCIÓN!!! Método no implementado.
+        String idEmpleado = EntradaTeclado.cadenaLimitada("Código de empleado:", 4, 4);
+        Empleado empleado = empleadoDAO.buscar(idEmpleado);
+
+        if (empleado != null) {
+            System.out.printf("Nombre: %s\n", empleado.getNombre());
+            System.out.printf("Salario anual: %d\n", empleado.getSalarioAnual());
+            System.out.printf("Sección: %s-%s\n", empleado.getSeccion().getIdSeccion(), empleado.getSeccion().getDescripcion());
+        } else {
+            System.out.println(Color.rojo("ERROR: No existe ningún empleado con código " + idEmpleado + "."));
+        }
     }
 
     /* Consulta e imprime los empleados almacenados, opcionalmente filtrados por sección.
      */
     public static void listarEmpleados() {
-        //  ¡¡¡ATENCIÓN!!! Método no implementado.
+        List<Empleado> empleados = empleadoDAO.listarTodos();
+        String idSeccion = EntradaTeclado.cadenaLimitada("Código de sección (dejar en blanco para todas):", 0,2);
+
+        // Imprimir los encabezados de las columnas
+        System.out.printf(
+                "%n%-6s %-40s %6s %-15s %n",
+                "CÓDIGO",
+                "NOMBRE",
+                "SALARIO ANUAL",
+                "SECCIÓN");
+
+        // Imprimir los valores de los empleados
+        for (Empleado p : empleados) {
+            if (idSeccion.equals(p.getSeccion().getIdSeccion()) || idSeccion.isEmpty()) {
+                System.out.printf("%-6s %-40s %6d %-15s %n",
+                        p.getIdEmpleado(),
+                        p.getNombre(),
+                        p.getSalarioAnual(),
+                        p.getSeccion().getDescripcion());
+            }
+        }
     }
 
     /**
      * Elimina un empleado identificado por su código.
      */
     public static void eliminarEmpleado() {
-        //  ¡¡¡ATENCIÓN!!! Método no implementado.
+        String idEmpleado = EntradaTeclado.cadenaLimitada("Código de empleado:", 4, 4);  // Limitar a 4 caracteres
+
+        // Usando el DAO genérico
+        System.out.println("---------------------------------------------");
+        if (empleadoDAO.eliminar(idEmpleado)) {
+            System.out.println(Color.verde("OK: Empleado eliminado."));
+        } else {
+            System.out.println(Color.rojo("ERROR: No se pudo eliminar el empleado."));
+            if (empleadoDAO.buscar(idEmpleado) == null) {
+                System.out.printf(Color.rojo("  --> El empleado %s no existe.\n"), idEmpleado);
+            }
+        }
+        System.out.println("---------------------------------------------");
     }
 
     /**
      * Modifica los atributos de un empleado existente.
      */
     public static void modificarEmpleado() {
-        //  ¡¡¡ATENCIÓN!!! Método no implementado.
+        String idEmpleado = EntradaTeclado.cadenaLimitada("Código de empleado:", 4, 4);  // Limitar a 10 caracteres
+        Empleado empleado = empleadoDAO.buscar(idEmpleado);
+        if (empleado == null) {
+            System.out.printf(Color.rojo("ERROR: El empleado %s no existe.\n"), idEmpleado);
+        } else {
+
+            System.out.printf("Nombre actual:%s\n", empleado.getNombre());
+            String nombre = EntradaTeclado.cadenaLimitada("Nuevo nombre, [ENTER] para dejar igual:", 0, 40);
+            if (!nombre.isEmpty()) {
+                empleado.setNombre(nombre);
+            }
+
+            System.out.printf("Salario anual:%d\n", empleado.getSalarioAnual());
+            int salarioAnual = EntradaTeclado.nEnteroPositivo("Nuevo salario anual:");
+            empleado.setSalarioAnual(salarioAnual);
+
+            System.out.printf("Código de sección actual:%s\n", empleado.getSeccion().getIdSeccion());
+            String idSeccion = EntradaTeclado.cadenaLimitada("Nueva sección, [ENTER] para dejar igual:", 2, 2);  // Limitar a 2 caracteres
+            if (!idSeccion.isEmpty()) {
+                Seccion seccion = seccionDAO.buscar(idSeccion);
+                empleado.setSeccion(seccion);
+            }
+            
+            System.out.println("---------------------------------------------");
+            if (empleadoDAO.actualizar(empleado)) {
+                System.out.println(Color.verde("OK: Empleado actualizado."));
+            } else {
+                System.out.println(Color.rojo("ERROR: No se pudo actualizar el empleado."));
+                if (seccionDAO.buscar(idSeccion) == null) {
+                    System.out.printf(Color.rojo("  --> La sección %s no existe.\n"), idSeccion);
+                }
+            }
+            System.out.println("---------------------------------------------");
+        }
     }
 }

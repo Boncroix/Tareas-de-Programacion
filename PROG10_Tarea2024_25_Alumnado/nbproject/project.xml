@@ -4,7 +4,6 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>PROG10_Tarea2024_25_Alumnado</name>
-            <explicit-platform explicit-source-supported="true"/>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
